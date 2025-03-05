@@ -1,0 +1,141 @@
+/* General body styling */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    background-color: #f6f8fa; /* GitHub light background */
+    color: #24292e; /* GitHub dark text */
+    margin: 0;
+    padding: 20px;
+}
+
+/* Header styling */
+header {
+    text-align: center; /* Center-align the header content */
+    margin-bottom: 30px; /* Space below the header */
+}
+
+h1 {
+    font-size: 2.5em; /* Increased font size for prominence */
+    font-weight: 600; /* Font weight */
+    font-family: 'Lucida Console', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Font family including fallback */
+    background: linear-gradient(to right, #0056d6, #0099ff, #00ccff); /* Gradient background */
+    -webkit-background-clip: text; /* Clip the background to the text */
+    -webkit-text-fill-color: transparent; /* Make the text color transparent to show the gradient */
+    display: inline-block; /* Ensure gradient applies correctly */
+    margin: 0; /* Remove default margin */
+}
+
+/* Container styling */
+.container {
+    background-color: #ffffff; /* White content background */
+    padding: 40px;
+    border-radius: 8px; /* Slightly increased border-radius for a modern look */
+    border: 2px solid #e1e4e8; /* Subtle gray border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+    width: 70%;
+    max-width: 900px; /* Maximum width for larger screens */
+    margin: 0 auto;
+}
+
+h2, h3 {
+    color: #24292e; /* Dark text for better readability */
+    font-weight: 500; /* Slightly less bold */
+    margin-bottom: 20px;
+}
+
+/* Form labels */
+label {
+    font-weight: 500; /* Slightly less bold */
+    font-size: 15px; /* Increased font size for readability */
+    display: block;
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+/* Text areas for input */
+textarea {
+    width: 100%;
+    padding: 14px; /* Comfortable padding */
+    border-radius: 8px; /* Slightly increased border-radius */
+    border: 2px solid #e1e4e8; /* Subtle gray border */
+    background-color: #fafbfc; /* Light gray background */
+    color: #24292e; /* Darker text */
+    font-size: 15px; /* Increased font size for better readability */
+    margin-bottom: 10px;
+    resize: vertical;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+/* File input */
+input[type="file"] {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #e1e4e8; /* Subtle gray border */
+    border-radius: 8px; /* Consistent border-radius */
+    background-color: #ffffff; /* White background */
+    padding: 10px; /* Padding for comfort */
+}
+
+/* Submit buttons */
+input[type="submit"] {
+    background: linear-gradient(135deg, #28a745, #1e7e34); /* Gradient green */
+    border: none; /* Remove border */
+    padding: 12px 20px; /* Comfortable padding */
+    color: #ffffff;
+    font-weight: 500; /* Slightly less bold */
+    font-size: 15px; /* Increased font size */
+    border-radius: 8px; /* Consistent border-radius */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out; /* Smooth transition */
+}
+
+.predict-button {
+    margin-left: 20px; /* Move predict button to the right */
+}
+
+.upload-button {
+    margin-left: 10px; /* Move upload button to the right */
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(135deg, #1e7e34, #28a745); /* Reverse gradient on hover */
+    transform: scale(1.02); /* Slight scale effect on hover */
+}
+
+/* Error message */
+.error {
+    color: #d73a49; /* GitHub red */
+    font-weight: 500; /* Slightly less bold */
+    background-color: #fddede; /* Light red background */
+    border: 2px solid #d73a49; /* Red border */
+    padding: 12px;
+    border-radius: 8px; /* Consistent border-radius */
+    margin-bottom: 20px; /* Space below error message */
+}
+
+/* Prediction result */
+.result {
+    color: #2cbe4e; /* GitHub green */
+    font-weight: 500; /* Slightly less bold */
+    font-size: 16px;
+    background-color: #e6ffed; /* Light green background */
+    border: 2px solid #2cbe4e; /* Green border */
+    padding: 12px;
+    border-radius: 8px; /* Consistent border-radius */
+    margin-top: 20px; /* Space above result message */
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    textarea {
+        font-size: 13px;
+    }
+
+    input[type="submit"] {
+        font-size: 13px;
+        padding: 10px 15px;
+    }
+}

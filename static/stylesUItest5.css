@@ -1,0 +1,168 @@
+/* General Styling */
+body {
+    font-family: 'Roboto', 'Lucida Grande', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f5f5, #e9ecef);
+    position: relative;
+    overflow: hidden; /* Hide overflow from the web of lines */
+}
+
+/* Canvas for background effect */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place the canvas behind other content */
+    background: "#fff"; /* Dark background for the canvas */
+}
+
+header {
+    text-align: center; /* Center the header content */
+    padding: 20px 0; /* Add some padding for better spacing */
+    width: 100%; /* Ensure the header takes full width */
+}
+
+h1 {
+    font-size: 2.5em; /* Increased font size for prominence */
+    font-weight: 600; /* Font weight */
+    font-family: 'Lucida Console', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Font family including fallback */
+    background: linear-gradient(to right, #0056d6, #0099ff, #00ccff); /* Gradient background */
+    -webkit-background-clip: text; /* Clip the background to the text */
+    -webkit-text-fill-color: transparent; /* Make the text color transparent to show the gradient */
+    display: inline-block; /* Ensure gradient applies correctly */
+    margin: 0; /* Remove default margin */
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 40px; /* Space between form and map */
+    width: 100%; /* Ensure container takes full width */
+    max-width: 1200px; /* Limit maximum width for larger screens */
+    margin: 0 auto; /* Center the container */
+    align-items: flex-start; /* Align items to the top */
+    position: relative; /* Ensure container is above the background effect */
+}
+
+/* Frosted glass effect for login window */
+.form-section {
+    flex: 1;
+    max-width: 400px; /* Limit form width */
+    background-color: rgba(255, 255, 255, 0.2); /* Very translucent white background */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center form vertically */
+    box-sizing: border-box; /* Ensure padding is included in width */
+    position: relative; /* Ensure form is above the background effect */
+    backdrop-filter: blur(20px); /* Strong blur for frosted glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for better contrast */
+}
+
+/* Frosted glass effect for map section */
+.user-stats {
+    flex: 2; /* Map takes more space */
+    background-color: rgba(255, 255, 255, 0.2); /* Very translucent white background */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    width: 100%; /* Ensure map section takes full available width */
+    position: relative; /* Ensure map section is above the background effect */
+    backdrop-filter: blur(20px); /* Strong blur for frosted glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for better contrast */
+}
+
+#map {
+    height: 420px; /* Reduced map height by 30% (from 600px to 420px) */
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styling */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between form elements */
+    width: 100%; /* Ensure form takes full width of its container */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.form label {
+    font-size: 0.9rem;
+    color: #5f6368;
+}
+
+.form input[type="text"],
+.form input[type="email"] {
+    width: calc(100% - 24px); /* Adjust width to account for padding */
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #e1e4e8;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly translucent input fields */
+    color: #202124;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.form input[type="text"]:focus,
+.form input[type="email"]:focus {
+    border-color: #0056d6;
+    box-shadow: 0 0 12px rgba(0, 86, 214, 0.3);
+}
+
+.button {
+    background: linear-gradient(135deg, #4285f4, #357ae8);
+    color: white;
+    font-size: 1rem;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* User Statistics Styling */
+.user-stats h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #202124;
+}
+
+.user-stats p {
+    font-size: 1rem;
+    color: #5f6368;
+    margin-bottom: 20px;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    color: gray;
+    font-size: 12px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly translucent footer */
+    border-top: 1px solid rgba(0, 0, 0, 0.1); /* Light border for better contrast */
+    position: relative; /* Ensure footer is above the background effect */
+    backdrop-filter: blur(10px); /* Add blur effect for translucency */
+}
