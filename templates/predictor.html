@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protein Interaction Predictor</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesTest.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>3PI Predictor</h1>
+    </header>
+
+    <div class="container">
+        <!-- Form for manual input -->
+        <section class="form-section">
+            <form method="POST" class="form">
+                <label for="host_sequence">Host Protein Sequence:</label>
+                <textarea name="host_sequence" id="host_sequence" rows="4" placeholder="Enter host protein sequence here..."></textarea>
+
+                <label for="pathogen_sequence">Pathogen Protein Sequence:</label>
+                <textarea name="pathogen_sequence" id="pathogen_sequence" rows="4" placeholder="Enter pathogen protein sequence here..."></textarea>
+
+                <input type="submit" value="Predict Interaction" class="button predict-button">
+            </form>
+        </section>
+
+        <!-- Form for CSV file upload -->
+        <section class="form-section">
+            <h2>Upload CSV File</h2>
+            <form method="POST" enctype="multipart/form-data" class="form">
+                <input type="file" name="file" id="file" accept=".csv">
+                <input type="submit" value="Upload and Predict" class="button upload-button">
+            </form>
+        </section>
+
+        <!-- Form for FASTA file upload -->
+        <section class="form-section">
+            <h2>Upload FASTA Files</h2>
+            <form method="POST" enctype="multipart/form-data" class="form">
+                <label for="host_fasta">Host FASTA File:</label>
+                <input type="file" name="host_fasta" id="host_fasta" accept=".fasta, .fa">
+
+                <label for="pathogen_fasta">Pathogen FASTA File:</label>
+                <input type="file" name="pathogen_fasta" id="pathogen_fasta" accept=".fasta, .fa">
+
+                <input type="submit" value="Upload and Predict" class="button upload-button">
+            </form>
+        </section>
+
+        <!-- Output or error message -->
+        {% if output %}
+        <section class="result">
+            <h2>Prediction Result</h2>
+            <p>{{ output }}</p>
+        </section>
+        {% elif error %}
+        <section class="error">
+            <h2>Error</h2>
+            <p>{{ error }}</p>
+        </section>
+        {% endif %}
+    </div>
+
+    <footer style="text-align: center; color: gray; font-size: 12px;">
+        <p>&copy; 2024 Bioinformatics Lab (ICAR) | Protein Interaction Predictor</p>
+    </footer>
+</body>
+
+</html>

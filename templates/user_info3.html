@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3PI</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesUItest5.css') }}">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+</head>
+
+<body>
+    <header>
+        <h1>3Pi</h1>
+    </header>
+
+    <div class="container">
+        <!-- Login Form on the Left -->
+        <section class="form-section">
+            <form method="POST" class="form">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" placeholder="Enter your full name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Enter your email address" required>
+
+                <label for="country">Country:</label>
+                <input type="text" name="country" id="country" placeholder="Enter your country" required>
+
+                <label for="workplace">Institute or company:</label>
+                <input type="text" name="workplace" id="workplace" placeholder="Enter your place of work" required>
+
+                <input type="submit" value="Submit" class="button submit-button">
+            </form>
+        </section>
+
+        <!-- User Statistics and Map on the Right -->
+        <section class="user-stats">
+            <h2>User Statistics</h2>
+            <p>Total Users: {{ user_count }}</p>
+            <div id="map"></div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Bioinformatics Lab (ICAR) | Protein Interaction Predictor</p>
+    </footer>
+
+    <!-- Add the canvas element for the background effect -->
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([0, 0], 2); // Center the map at [0, 0] with zoom level 2
+
+        // Add a tile layer (map background)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // User locations (including duplicates)
+        var userLocations = {{ user_locations | tojson }}; // Pass user_locations from Flask to JavaScript
+
+        // Aggregate user counts by country
+        var countryCounts = {};
+        userLocations.forEach(function(location) {
+            if (countryCounts[location]) {
+                countryCounts[location]++;
+            } else {
+                countryCounts[location] = 1;
+            }
+        });
+
+        // Add circle markers for each country
+        Object.keys(countryCounts).forEach(function(country) {
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(country)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var lat = parseFloat(data[0].lat);
+                        var lon = parseFloat(data[0].lon);
+
+                        // Add a circle marker with size proportional to the number of users
+                        L.circleMarker([lat, lon], {
+                            radius: Math.sqrt(countryCounts[country]) * 5, // Scale radius based on user count
+                            fillColor: "#007bff",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).addTo(map)
+                        .bindPopup(`${country}: ${countryCounts[country]} users`); // Add a popup with the country and user count
+                    }
+                })
+                .catch(error => console.error('Error geocoding location:', error));
+        });
+
+        // Background effect: Connecting lines and dots
+        var canvas = document.getElementById("canvas"),
+            ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        var stars = [], // Array that contains the stars
+            FPS = 10, // Frames per second
+            x = 200, // Number of stars
+            mouse = {
+                x: 0,
+                y: 0
+            };  // mouse location
+
+        // Push stars to array
+        for (var i = 0; i < x; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1 + 1,
+                vx: Math.floor(Math.random() * 50) - 25,
+                vy: Math.floor(Math.random() * 50) - 25
+            });
+        }
+
+        // Draw the scene
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.globalCompositeOperation = "lighter";
+
+            for (var i = 0, x = stars.length; i < x; i++) {
+                var s = stars[i];
+
+                ctx.fillStyle = "#006400";
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.fillStyle = 'black';
+                ctx.stroke();
+            }
+
+            ctx.beginPath();
+            for (var i = 0, x = stars.length; i < x; i++) {
+                var starI = stars[i];
+                ctx.moveTo(starI.x, starI.y);
+                if (distance(mouse, starI) < 150) ctx.lineTo(mouse.x, mouse.y);
+                for (var j = 0, x = stars.length; j < x; j++) {
+                    var starII = stars[j];
+                    if (distance(starI, starII) < 150) {
+                        //ctx.globalAlpha = (1 / 150 * distance(starI, starII).toFixed(1));
+                        ctx.lineTo(starII.x, starII.y);
+                    }
+                }
+            }
+            ctx.lineWidth = 0.05;
+            ctx.strokeStyle = "#006400";
+            ctx.stroke();
+        }
+
+        function distance(point1, point2) {
+            var xs = 0;
+            var ys = 0;
+
+            xs = point2.x - point1.x;
+            xs = xs * xs;
+
+            ys = point2.y - point1.y;
+            ys = ys * ys;
+
+            return Math.sqrt(xs + ys);
+        }
+
+        // Update star locations
+        function update() {
+            for (var i = 0, x = stars.length; i < x; i++) {
+                var s = stars[i];
+
+                s.x += s.vx / FPS;
+                s.y += s.vy / FPS;
+
+                if (s.x < 0 || s.x > canvas.width) s.vx = -s.vx;
+                if (s.y < 0 || s.y > canvas.height) s.vy = -s.vy;
+            }
+        }
+
+        canvas.addEventListener('mousemove', function (e) {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        // Update and draw
+        function tick() {
+            draw();
+            update();
+            requestAnimationFrame(tick);
+        }
+
+        tick();
+    </script>
+</body>
+
+</html>
